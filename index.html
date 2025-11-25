@@ -2,22 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Blockchain To-Do List</title>
+  <title>Crypto To-Do DApp</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.umd.min.js"></script>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>📝 Blockchain To-Do List</h1>
+  <!-- Top Branding Bar -->
+  <header class="topbar">
+    <h2>🟣 To-Do DApp</h2>
+  </header>
+
+  <!-- Main App Card -->
+  <div class="dashboard-card">
+    
+    <h1 class="title">Your Task Manager</h1>
 
     <div class="input-box">
-      <input id="taskInput" type="text" placeholder="Enter a new task..." />
-      <button onclick="addTask()">Add</button>
+      <input id="taskInput" type="text" placeholder="Add a new task..." />
+      <button onclick="addTask()" class="add-btn">＋</button>
     </div>
 
-    <h2>Your Tasks</h2>
+    <h3 class="sub-title">📋 Task List</h3>
+
     <div id="taskList" class="task-list"></div>
   </div>
 
