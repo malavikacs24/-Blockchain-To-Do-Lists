@@ -1,140 +1,165 @@
-# -Blockchain-To-Do-Lists
+🚀 Crypto To-Do List DApp
 
-Blockchain To-Do List DApp
+A simple, modern Web3 decentralized application (DApp) that lets users create and manage tasks directly on the blockchain.
+Built with Solidity, MetaMask, Ethers.js, HTML/CSS, and a Dark Mode Crypto Dashboard UI.
 
-This is a simple DApp I created for learning blockchain.
-It allows users to add tasks and complete tasks, and everything is stored on the blockchain.
-Below I wrote all the steps for how to deploy and test this project.
+🌌 Features
 
-Features
+🔐 Wallet Connection (MetaMask)
+📝 Add Blockchain-Stored Tasks
+🔄 Toggle Completed / Undo (On-Chain State Update)
+📜 Live Task List fetched directly from the smart contract
+🌙 Dark Mode Crypto Dashboard UI
+⚡ Ethers.js v6 / BrowserProvider Integration
+🎨 Glassmorphism Cards, Gradient Buttons, Hover Animations
+🪪 Works on Sepolia, Hoodi, Polygon, or any EVM Testnet
 
-Add tasks on-chain
+🛠 Tech Stack
+Component	Technology
+Smart Contract	Solidity (0.8.x)
+Blockchain	Ethereum Testnet (Sepolia / Hoodi)
+Wallet	MetaMask
+Frontend	HTML + CSS + JS (Dark Dashboard UI)
+Web3 Connection	Ethers.js v6 (BrowserProvider)
+Hosting	Live Server / Static Web Server
+📁 Folder Structure
+/todo-dapp
+│── index.html          # Frontend UI
+│── style.css           # Dark Mode Dashboard Styles
+│── app.js              # Ethers.js logic + contract calls
+│── TodoList.sol        # Smart contract code
+└── README.md           # Project documentation
 
-Mark tasks completed/undo
+🧱 Smart Contract
 
-Beautiful UI (HTML + CSS)
+TodoList.sol
 
-Connect Wallet button
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-Works with MetaMask
+contract TodoList {
 
-Ethereum Testnet support (Sepolia / Hoodi)
+    struct Task {
+        string text;
+        bool completed;
+    }
 
-100% decentralized storage
+    Task[] public tasks;
 
+    function addTask(string memory _text) public {
+        tasks.push(Task(_text, false));
+    }
 
-📁 Project Structure
-/project
-│
-├── index.html      # Frontend UI
-├── style.css       # Styling
-├── app.js          # Ethers.js logic
-└── TodoList.sol    # Smart Contract
+    function toggleCompleted(uint _index) public {
+        require(_index < tasks.length, "Invalid index");
+        tasks[_index].completed = !tasks[_index].completed;
+    }
 
-🧱 Smart Contract Deployment (Remix + MetaMask)
-1️⃣ Open Remix
+    function getTasks() public view returns(Task[] memory) {
+        return tasks;
+    }
+}
+
+🌐 UI Preview
+
+💠 Gradient Top Bar
+💠 Neon "Add Task" Button
+💠 Frosted-Glass Dashboard Card
+💠 Glowing Input Field
+💠 Smooth Hover Animations
+💠 Fully Responsive
+
+🚀 How to Run Locally
+1. Clone the Repository
+git clone https://github.com/your-username/todo-dapp.git
+cd todo-dapp
+
+2. Install MetaMask
+
+👉 https://metamask.io/
+
+Create or import a wallet and switch to a test network:
+
+Hoodi Testnet
+
+Sepolia Testnet
+
+Make sure you have test ETH.
+
+3. Deploy the Smart Contract
+▶ Go to Remix IDE
 
 👉 https://remix.ethereum.org/
 
-2️⃣ Create file
+Create a new file → TodoList.sol
 
-Create TodoList.sol and paste your contract.
+Paste the contract code
 
-3️⃣ Compile
+Compile using version 0.8.x
 
-Open Solidity Compiler
+Open Deploy & Run Transactions
 
-Select 0.8.x
+Select:
 
-Click Compile
+Injected Provider – MetaMask
 
-4️⃣ Connect MetaMask
-
-Open MetaMask
-
-Select Sepolia or Hoodi Testnet
-
-In Remix → Deploy & Run → choose:
-
-Injected Provider - MetaMask
-
-
-Allow MetaMask connection
-
-5️⃣ Deploy Contract
 
 Click Deploy
 
-MetaMask pops up → Confirm
+MetaMask will open → Confirm transaction
 
-Wait 5–20 seconds
+Copy:
 
-6️⃣ Copy Contract Address
+Contract Address
 
-From Remix:
+(ABI stays the same from the contract)
 
-TodoList at 0x1234...
+4. Add Contract Details to app.js
 
+Example:
 
-Copy this and paste it into app.js.
-
-🌐 Frontend Setup (HTML + JS + Ethers.js)
-1️⃣ Insert Contract Address
-
-In app.js:
-
-const contractAddress = "YOUR_CONTRACT_ADDRESS_HERE";
+const contractAddress = "0x85df341dF3D7B38Bf3c592C9129ca75805D61A82";
 
 
-Replace with the one from Remix.
+The ABI is already included inside your app.js.
 
-2️⃣ Run Frontend Using Live Server
+5. Start Local Development Server
 
-MetaMask does not work with file:///.
-
+Browsers block Web3 scripts without a server.
 Use Live Server:
 
-Open VS Code
+If using VS Code:
 
-Right-click index.html
+Right-click → Open with Live Server
 
-Click Open with Live Server
+OR use Python:
 
-Opens at:
+python -m http.server 8000
 
-http://127.0.0.1:5500
 
-🦊 Connect Wallet
+Open in browser:
 
-When DApp loads:
+👉 http://localhost:8000
 
-Click Connect Wallet
+💎 UI Sneak Peek
 
-MetaMask popup appears
+✨ Dark Mode Crypto Dashboard
+✨ Neon Gradient Buttons
+✨ Glassmorphism Task Cards
+✨ Floating Add Button (＋)
+✨ Smooth Fade & Slide Animations
+✨ Responsive Layout
 
-Select your account
+🧪 Testing the DApp
 
-Make sure your network = same network as contract deployment
+Click Add Task (＋)
 
-🧪 Testing the Application
-✔ Add Task
+MetaMask opens → click Confirm
 
-Type a task
+Your task appears instantly after the transaction
 
-Click Add
+Click Complete / Undo to toggle
 
-Confirm transaction in MetaMask
+Confirm MetaMask again
 
-Task appears after confirmation
-
-✔ Complete / Undo Task
-
-Click Complete
-
-Confirm
-
-UI updates from blockchain
-
-✔ Refresh Page
-
-Tasks remain because everything is stored on-chain.
+Tasks stay saved even after refresh (stored on-chain)
