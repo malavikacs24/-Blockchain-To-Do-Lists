@@ -34,6 +34,10 @@ const abi = [
   }
 ];
 
+
+// -----------------------------
+//  FIXED getProvider()
+// -----------------------------
 async function getProvider() {
   if (!window.ethereum) {
     alert("MetaMask not installed!");
@@ -41,12 +45,23 @@ async function getProvider() {
   }
 
   const provider = new ethers.BrowserProvider(window.ethereum);
-  await window.ethereum.request({ method: "eth_requestAccounts" });
-  const signer = await provider.getSigner();
 
+  // check if wallet already connected
+  let accounts = await ethereum.request({ method: "eth_accounts" });
+
+  // request connection only if not connected
+  if (accounts.length === 0) {
+    accounts = await ethereum.request({ method: "eth_requestAccounts" });
+  }
+
+  const signer = await provider.getSigner();
   return { provider, signer };
 }
 
+
+// -----------------------------
+//  LOAD TASKS
+// -----------------------------
 async function loadTasks() {
   const { provider } = await getProvider();
   const contract = new ethers.Contract(contractAddress, abi, provider);
@@ -70,6 +85,10 @@ async function loadTasks() {
   });
 }
 
+
+// -----------------------------
+//  ADD TASK
+// -----------------------------
 async function addTask() {
   const taskText = document.getElementById("taskInput").value;
   if (!taskText) return alert("Enter a task!");
@@ -84,6 +103,10 @@ async function addTask() {
   loadTasks();
 }
 
+
+// -----------------------------
+//  TOGGLE TASK
+// -----------------------------
 async function toggleTask(index) {
   const { signer } = await getProvider();
   const contract = new ethers.Contract(contractAddress, abi, signer);
@@ -94,4 +117,10 @@ async function toggleTask(index) {
   loadTasks();
 }
 
-window.onload = loadTasks;
+
+// -----------------------------
+//  FIX: Prevent duplicate loading
+// -----------------------------
+window.addEventListener("DOMContentLoaded", () => {
+  setTimeout(loadTasks, 300);
+});
